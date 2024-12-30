@@ -21,30 +21,6 @@ Constraints:
 flowerbed[i] is 0 or 1.
 There are no two adjacent flowers in flowerbed.
 0 <= n <= flowerbed.length
-
-
-class Solution:
-    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
-        """
-        :type flowerbed: List[int]
-        :type n: int
-        :rtype: bool
-        """
-        visited = flowerbed[]
-        print(f'visited: {visited}')
-
-        available_flower_spots_count = 0
-        for i in range(1, len(flowerbed) - 1):
-            left, right = i - 1, i + 1
-            visited[left], visited[i], visited[right] = True, True, True
-            can_place_flower = True if (flowerbed[left] == 0 and flowerbed[i] == 0 and flowerbed[right] == 0) else False
-
-            if can_place_flower:
-                print('can_place_flower at index:', i)
-                available_flower_spots_count += 1
-                print('available_flower_spots_count:', available_flower_spots_count)
-
-        return True
 '''
 
 from typing import List
