@@ -1,3 +1,5 @@
+# pylint: skip-file
+
 '''
 345. Reverse Vowels of a String
 

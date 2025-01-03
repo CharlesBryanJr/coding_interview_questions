@@ -1,3 +1,5 @@
+# pylint: skip-file
+
 '''
 605. Can Place Flowers
 
@@ -27,7 +29,7 @@ from typing import List
 
 
 class Solution:
-    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:    
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
         if n == 0:
             return True
         for i in range(len(flowerbed)):

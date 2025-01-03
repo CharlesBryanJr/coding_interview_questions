@@ -1,3 +1,5 @@
+# pylint: skip-file
+
 '''
 151. Reverse Words in a String
 
