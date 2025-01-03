@@ -34,28 +34,14 @@ from typing import List
 
 class Solution:
     def increasingTriplet(self, nums: List[int]) -> bool:
-        if len(nums) < 3:
-            return False
-        MIN_NUM = min(nums)    
-        MAX_NUM = max(nums)
-        print(f'MIN_NUM: {MIN_NUM}')
-        print(f'MAX_NUM: {MAX_NUM}')
-        for NUM_IDX in range(len(nums)):
-            if nums[NUM_IDX] == MIN_NUM:
-                MIN_NUM_IDX = NUM_IDX
-            elif nums[NUM_IDX] == MAX_NUM:
-                MAX_NUM_IDX = NUM_IDX
-        if MAX_NUM_IDX - MIN_NUM_IDX > 0:
-            return True
-        i, j = 0, 1
-        while nums[j] in (MIN_NUM, MAX_NUM):
-            j += 1
-        k = j + 1
-        while nums[k] in (MIN_NUM, MAX_NUM):
-            k += 1
-        print(f'nums[i:{i}]: {nums[i]}')
-        print(f'nums[j:{j}]: {nums[j]}')
-        print(f'nums[k:{k}]: {nums[k]}')
+        first, second = float('inf'), float('inf')
+        for idx in range(len(nums)):
+            if nums[idx] <= first:
+                first = nums[idx]
+            elif nums[idx] <= second:
+                second = nums[idx]
+            else:
+                return True
         return False
 
 
