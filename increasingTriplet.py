@@ -36,34 +36,26 @@ class Solution:
     def increasingTriplet(self, nums: List[int]) -> bool:
         if len(nums) < 3:
             return False
-
         MIN_NUM = min(nums)    
         MAX_NUM = max(nums)
         print(f'MIN_NUM: {MIN_NUM}')
         print(f'MAX_NUM: {MAX_NUM}')
-
-        i, k = 0, len(nums) - 1
         for NUM_IDX in range(len(nums)):
             if nums[NUM_IDX] == MIN_NUM:
-                i = NUM_IDX
+                MIN_NUM_IDX = NUM_IDX
             elif nums[NUM_IDX] == MAX_NUM:
-                k = NUM_IDX
-        
-        j = i + 1
+                MAX_NUM_IDX = NUM_IDX
+        if MAX_NUM_IDX - MIN_NUM_IDX > 0:
+            return True
+        i, j = 0, 1
+        while nums[j] in (MIN_NUM, MAX_NUM):
+            j += 1
+        k = j + 1
+        while nums[k] in (MIN_NUM, MAX_NUM):
+            k += 1
         print(f'nums[i:{i}]: {nums[i]}')
         print(f'nums[j:{j}]: {nums[j]}')
         print(f'nums[k:{k}]: {nums[k]}')
-        print('-'*13)
-        while i < j and i < k and j < k:
-            if nums[i] < nums[j] and nums[i] < nums[k] and nums[j] < nums[k]:
-                print(f'nums[{i}]: {nums[i]}')
-                print(f'nums[{j}]: {nums[j]}')
-                print(f'nums[{k}]: {nums[k]}')
-                return True
-            
-            i += 1
-            j += 1
-            k -= 1
         return False
 
 
