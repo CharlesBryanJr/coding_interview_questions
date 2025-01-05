@@ -36,62 +36,34 @@ Constraints:
 chars[i] is a lowercase English letter, uppercase English letter, digit, or symbol.
 '''
 
+
 from typing import List
 
 
 class Solution:
     def compress(self, chars: List[str]) -> int:
-        if len(chars) == 0:
-            return 0
-
-        last_char_index = 0
-        last_char = chars[last_char_index]
-        last_char_count_index = last_char_index + 1
-        last_char_count = 1
-
-        for i in range(1, len(chars)):
-            if chars[i] == last_char:
-                last_char_count += 1
-            else:
-                chars[last_char_index] = last_char
-                if last_char_count == 1:
-                    last_char_index = i
-                    last_char = chars[i]
-                    last_char_count_index = last_char_index + 1
-                elif last_char_count > 1 and last_char_count <= 9:
-                    chars[last_char_index] = last_char
-                    chars[last_char_count_index] = str(last_char_count)
-
-                    last_char_index = last_char_count_index + 1
-                    last_char_count_index = last_char_index + 1
-                else:
-                    chars[last_char_index] = last_char
-                    chars[last_char_count_index] = str(last_char_count)
-
-                    last_char_index = last_char_count_index + 1
-                    last_char_count_index = last_char_index + 1
-
-                last_char_count = 1
-                last_char = chars[i]
-
-        if last_char_count == 1: 
-            pass
-        elif last_char_count > 1 and last_char_count <= 9: 
-            chars[last_char_index] = last_char
-            chars[last_char_count_index] = str(last_char_count)
-            chars = chars[:last_char_count_index+1]
-
-        print(f'chars: {chars}')
-        return len(chars)
+        write, read, n = 0, 0, len(chars)
+        while read < n:
+            start = read
+            chars[write] = chars[start]
+            write += 1
+            while read < n and chars[read] == chars[start]:
+                read += 1
+            length = read - start
+            if length > 1:
+                for digit in str(length):
+                    chars[write] = digit
+                    write += 1
+        return write
 
 
 if __name__ == "__main__":
-    chars = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]
+    chars = ["a","a","a","a","b","a"]
     print(f'chars: {chars}')
     solution = Solution()
     OUTPUT = solution.compress(chars)
     print(f'compress: {OUTPUT}')
-    # ["a","b","1","2"]
-    EXPECTED_OUTPUT = 4
+    EXPECTED_OUTPUT = ["a","4","b","a"]
     print(f'Expected Output: {EXPECTED_OUTPUT}')
-    print(f'OUTPUT == EXPECTED_OUTPUT: {OUTPUT == EXPECTED_OUTPUT}')
+    print(f'Expected Output Count: {len(EXPECTED_OUTPUT)}')
+    print(f'OUTPUT == EXPECTED_OUTPUT: {OUTPUT == len(EXPECTED_OUTPUT)}')
