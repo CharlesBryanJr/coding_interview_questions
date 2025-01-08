@@ -39,44 +39,29 @@ from typing import List
 class Solution:
     def maxOperations(self, nums: List[int], k: int) -> int:
         operation_count = 0
-        used_nums_idx = [False] * len(nums)
         pairs = {}
-        i = 0
         for i in range(len(nums)):
-            print(f'i: {i}')
-            if nums[i] in pairs:
-                pairs[nums[i]] += [i]
-            else:
-                pairs[nums[i]] = [i]
             diff = k - nums[i]
             if diff in pairs:
-                diff_idx = pairs[diff][0]
-                print(f'FOUND PAIR')
-                print(f'i: {i} with value: {nums[i]}')
-                print(f'i: {diff_idx} with value: {diff}')
-                print(f'pairs[{diff}]: {pairs[diff]}')
                 pairs[diff].pop(0)
                 if not pairs[diff]:
                     del pairs[diff]
-                    print(f'del pairs[{diff}]')
-                print(f'{pairs}')
-                used_nums_idx[i] = True
-                used_nums_idx[diff_idx] = True
                 operation_count += 1
-                print(f'operation_count: {operation_count}')
-                print(f'used_nums_idx: {used_nums_idx}')
-            print(f'{pairs}')
-            print()
-        return 0
+            else:
+                if nums[i] in pairs:
+                    pairs[nums[i]] += [i]
+                else:
+                    pairs[nums[i]] = [i]
+        return operation_count
 
 
 if __name__ == "__main__":
-    nums = [1,2,3,4]
-    k = 5
+    nums = [3,1,3,4,3]
+    k = 6
     print(f'nums: {nums}')
     print(f'k: {k}')
     solution = Solution()
     OUTPUT = solution.maxOperations(nums, k)
     print(f'maxOperations: {OUTPUT}')
-    EXPECTED_OUTPUT = 2
+    EXPECTED_OUTPUT = 1
     print(f'Expected Output: {OUTPUT == EXPECTED_OUTPUT}')
