@@ -5,7 +5,6 @@
 
 Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
 
- 
 Example 1:
 
 Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
@@ -31,52 +30,17 @@ from typing import List
 
 class Solution:
     def longestOnes(self, nums: List[int], k: int) -> int:
-        start, end, n = 0, 1, len(nums)
-        ones_length, max_ones_length = 0, -1
-        filp_count = k
-
-        while start < n and end < n:
-            while start < n and nums[start] == 0:
-                start += 1
-            
-            end = start + 1
-            while end < n and nums[end] == 1:
-                end += 1
-            
-            if start < n and end < n:
-                print(f'start: {start}')
-                print(f'nums[start]: {nums[start]}')
-                print(f'end: {end}')
-                print(f'nums[end]: {nums[end]}')
-
-            while start > 0 and nums[start] == 0 and filp_count > 0:
-                start -= 1
-                filp_count -= 1
-            start = max(start, 0)
-            
-            filp_count -= 1
-            while end < n and nums[end] == 0 and filp_count > 0:
-                end += 1
-                filp_count -= 1
-            
-            if start < n and end < n:
-                print(f'start: {start}')
-                print(f'nums[start]: {nums[start]}')
-                print(f'end: {end}')
-                print(f'nums[end]: {nums[end]}')
-            
-
-            ones_length = end - start + 1
-            if ones_length > max_ones_length:
-                max_ones_length = ones_length
-            print(f'ones_length: {ones_length}')
-            print(f'max_ones_length: {max_ones_length}')
-            print()
-
-            start = end
-            filp_count = k
-
-        return max_ones_length
+        left, max_window_length, zeros_count = 0, 0, 0
+        for right in range(len(nums)):
+            if nums[right] == 0:
+                zeros_count += 1
+            while zeros_count > k:
+                if nums[left] == 0:
+                    zeros_count -= 1
+                left += 1
+            if (right - left + 1) > max_window_length:
+                max_window_length = (right - left + 1)
+        return max_window_length
 
 
 if __name__ == "__main__":
