@@ -25,7 +25,7 @@ from typing import List
 
 class Solution:
     def uniqueOccurrences(self, arr: List[int]) -> bool:
-        arr_dict, occurrences = dict(), dict()
+        arr_dict, occurrences = dict(), set()
         for num in arr:
             if num in arr_dict:
                 arr_dict[num] += 1
@@ -35,7 +35,7 @@ class Solution:
             if value in occurrences:
                 return False
             else:
-                occurrences[value] = key
+                occurrences.add(value)
         return True
 
 
