@@ -6,7 +6,6 @@
 Given a 0-indexed n x n integer matrix grid, return the number of pairs (ri, cj) such that row ri and column cj are equal.
 
 A row and column pair is considered equal if they contain the same elements in the same order (i.e., an equal array).
- 
 
 Example 1:
 
@@ -32,35 +31,19 @@ n == grid.length == grid[i].length
 1 <= grid[i][j] <= 105
 '''
 
-
-
 from typing import List
-
-
 from collections import Counter
 
 class Solution:
-    def closeStrings(self, word1: str, word2: str) -> bool:
-        if len(word1) != len(word2):
-            return False
-        word1_values_and_count, word2_values_and_count = Counter(word1), Counter(word2)
-        if word1_values_and_count.keys() != word2_values_and_count.keys():
-            return False
-        word1_sorted_value_counts = sorted(word1_values_and_count.values())
-        word2_sorted_value_counts = sorted(word2_values_and_count.values())
-        if word1_sorted_value_counts != word2_sorted_value_counts:
-            return False
-        return True
-
+    def equalPairs(self, grid: List[List[int]]) -> int:
+        return 1
 
 if __name__ == "__main__":
-    word1 = "cabbba"
-    word2 = "abbccc"
-    print(f'word1: {word1}')
-    print(f'word2: {word2}')
+    grid = [[3,2,1],[1,7,6],[2,7,7]]
+    print(f'grid: {grid}')
     solution = Solution()
-    OUTPUT = solution.closeStrings(word1, word2)
-    print(f'closeStrings: {OUTPUT}')
+    OUTPUT = solution.equalPairs(grid)
+    print(f'equalPairs: {OUTPUT}')
     EXPECTED_OUTPUT = True
     print(f'Expected Output: {EXPECTED_OUTPUT}')
     print(f'OUTPUT == EXPECTED_OUTPUT: {OUTPUT == EXPECTED_OUTPUT}')
