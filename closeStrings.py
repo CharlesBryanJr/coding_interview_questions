@@ -46,15 +46,45 @@ from typing import List
 
 class Solution:
     def closeStrings(self, word1: str, word2: str) -> bool:
-        return True
+        updated_word1 = [char for char in word1]
+        n = len(word1)
+        indexes_with_incorrect_chars = list()
+        word1_dict, word2_dict = dict(), dict()
+        for i in range(n):
+            if word1[i] != word2[i]:
+                indexes_with_incorrect_chars.append(i)
+            word1_dict[word1[i]] = i
+            word2_dict[word2[i]] = i
+        if len(indexes_with_incorrect_chars) == 0:
+            return True
+        print(f'indexes_with_incorrect_chars: {indexes_with_incorrect_chars}')
+        print(f'word1_dict: {word1_dict}')
+        print(f'word2_dict: {word2_dict}')
+        for index in indexes_with_incorrect_chars:
+            what_char_is = word1[index]
+            what_char_should_be = word2[index]
+            what_char_should_be_idx = word1_dict[what_char_should_be]
+            print(f'index: {index}')
+            print(f'what_char_is: {what_char_is}')
+            print(f'what_char_should_be: {what_char_should_be}')
+            print(f'what_char_should_be_idx: {what_char_should_be_idx}')
+            print(f'updated_word1: {updated_word1}')
+            updated_word1[index] = what_char_should_be
+            updated_word1[what_char_should_be_idx] = what_char_is
+            print(f'updated_word1: {updated_word1}')
+            print()
+
+        return True if updated_word1 == word2 else False
 
 
 if __name__ == "__main__":
-    arr = [1,2]
-    print(f'arr: {arr}')
+    word1 = "abc"
+    word2 = "bca"
+    print(f'word1: {word1}')
+    print(f'word2: {word2}')
     solution = Solution()
-    OUTPUT = solution.uniqueOccurrences(arr)
-    print(f'uniqueOccurrences: {OUTPUT}')
-    EXPECTED_OUTPUT = False
+    OUTPUT = solution.closeStrings(word1, word2)
+    print(f'closeStrings: {OUTPUT}')
+    EXPECTED_OUTPUT = True
     print(f'Expected Output: {EXPECTED_OUTPUT}')
     print(f'OUTPUT == EXPECTED_OUTPUT: {OUTPUT == EXPECTED_OUTPUT}')
