@@ -9,13 +9,12 @@ A row and column pair is considered equal if they contain the same elements in t
 
 Example 1:
 
-
 Input: grid = [[3,2,1],[1,7,6],[2,7,7]]
 Output: 1
 Explanation: There is 1 equal row and column pair:
 - (Row 2, Column 1): [2,7,7]
-Example 2:
 
+Example 2:
 
 Input: grid = [[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]
 Output: 3
@@ -32,11 +31,16 @@ n == grid.length == grid[i].length
 '''
 
 from typing import List
-from collections import Counter
 
 class Solution:
     def equalPairs(self, grid: List[List[int]]) -> int:
-        return 1
+        equal_pairs_count, n = 0, len(grid)
+        transposed = list(map(list, zip(*grid)))
+        for i in range(n):
+            for j in range(n):
+                if grid[i] == transposed[j]:
+                    equal_pairs_count += 1
+        return equal_pairs_count
 
 if __name__ == "__main__":
     grid = [[3,2,1],[1,7,6],[2,7,7]]
@@ -44,6 +48,6 @@ if __name__ == "__main__":
     solution = Solution()
     OUTPUT = solution.equalPairs(grid)
     print(f'equalPairs: {OUTPUT}')
-    EXPECTED_OUTPUT = True
+    EXPECTED_OUTPUT = 1
     print(f'Expected Output: {EXPECTED_OUTPUT}')
     print(f'OUTPUT == EXPECTED_OUTPUT: {OUTPUT == EXPECTED_OUTPUT}')
