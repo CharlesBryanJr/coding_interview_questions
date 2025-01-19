@@ -43,50 +43,30 @@ from typing import List
 
 class Solution:
     def removeStars(self, s: str) -> str:
-        result = ''
-        print(f"Initial string: {s}")
-        i = len(s) - 1
-        
-        while i >= 0:
-            print(f"\nTop of outer loop, i = {i}")
-            
-            # Process non-star characters
-            while i >= 0 and s[i] != '*':
-                print(f"Adding s[{i}] = '{s[i]}' to result.")
-                result += s[i]
-                i -= 1
-            
-            print(f"Finished non-star sequence, i = {i}, result so far = '{result}'")
-            
-            # Count stars
-            star_count = 0
-            while i >= 0 and s[i] == '*':
-                print(f"Found '*' at s[{i}].")
+        star_count = 0
+        for char in s:
+            if char == '*':
                 star_count += 1
-                i -= 1
-            
-            print(f"Counted {star_count} stars, now i = {i}")
-            
-            # Skip characters based on star_count
-            if i >= 0:
-                print(f"Before skipping characters, i = {i}, star_count = {star_count}")
-                i -= star_count
-                print(f"After skipping characters, i = {i}")
-                
-                # Check if next index is valid for printing
-                if i >= 0:
-                    print(f"Next character to process: s[{i}] = '{s[i]}'")
-                else:
-                    print("i is less than 0, no next character to process.")
-        
-        print(f"\nFinal reversed result before reversing: '{result}'")
-        final_result = result[::-1]
-        print(f"Final result after reversing: '{final_result}'")
-        return final_result
+        print(f'star_count: {star_count}')
+        result, i = '', len(s) - 1
+        while i >= 0:
+            print(f'i: {i}')
+            print(f's[{i}]: {s[i]}')
+            print(f'star_count: {star_count}')
+            print(f'result: {result}')
+            print()
+            if s[i] == '*':
+                pass
+            else:
+                if star_count <= 0:
+                    result += s[i]
+                star_count -= 1
+            i -= 1
+        return result
 
 
 if __name__ == "__main__":
-    s = "abb*cdfg*****x*"
+    s = "leet**cod*e"
     print(f's: {s}')
     solution = Solution()
     OUTPUT = solution.removeStars(s)
