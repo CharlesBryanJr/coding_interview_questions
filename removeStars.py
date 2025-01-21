@@ -43,34 +43,21 @@ from typing import List
 
 class Solution:
     def removeStars(self, s: str) -> str:
-        star_count = 0
-        for char in s:
-            if char == '*':
-                star_count += 1
-        print(f'star_count: {star_count}')
-        result, i = '', len(s) - 1
-        while i >= 0:
-            print(f'i: {i}')
-            print(f's[{i}]: {s[i]}')
-            print(f'star_count: {star_count}')
-            print(f'result: {result}')
-            print()
+        result, n = [], len(s)
+        for i in range(n):
             if s[i] == '*':
-                pass
+                result.pop()
             else:
-                if star_count <= 0:
-                    result += s[i]
-                star_count -= 1
-            i -= 1
-        return result
+                result.append(s[i])
+        return "".join(result)
 
 
 if __name__ == "__main__":
-    s = "leet**cod*e"
+    s = "abb*cdfg*****x*"
     print(f's: {s}')
     solution = Solution()
     OUTPUT = solution.removeStars(s)
     print(f'removeStars: {OUTPUT}')
-    EXPECTED_OUTPUT = "lecoe"
+    EXPECTED_OUTPUT = "a"
     print(f'Expected Output: {EXPECTED_OUTPUT}')
     print(f'OUTPUT == EXPECTED_OUTPUT: {OUTPUT == EXPECTED_OUTPUT}')
