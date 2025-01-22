@@ -34,11 +34,39 @@ asteroids[i] != 0
 '''
 
 from typing import List
+from typing import Tuple
+
 
 class Solution:
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
-        print(f'asteroids.sort(): {sorted(asteroids)}')
-        return sorted(asteroids)
+        n, i = len(asteroids), 1
+        if n == 1:
+            return asteroids
+        res = []
+        while i < n - 1:
+            if asteroids[i-1] > 0 and asteroids[i] < 0:
+                outcome_of_collision = self.outcome_of_collision(asteroids, i-1, i)
+                res += outcome_of_collision
+            elif asteroids[i] > 0 and asteroids[i+1] < 0:
+                outcome_of_collision = self.outcome_of_collision(asteroids, i, i+1)
+                res += outcome_of_collision
+            else:
+                res.append(i)
+            print(f'i: {i}')
+            print(f'asteroids[i]: {asteroids[i]}')
+            print(f'res: {res}')
+            print()
+            i += 1
+        return res
+
+
+    def outcome_of_collision(self, asteroids: List[int], i: int, j: int) -> List[int]:
+        if asteroids[i] > asteroids[j]:
+            return [asteroids[i]]
+        elif asteroids[j] > asteroids[i]:
+            return [asteroids[j]]
+        else:
+            return [asteroids[i], asteroids[j]]
 
 
 if __name__ == "__main__":
