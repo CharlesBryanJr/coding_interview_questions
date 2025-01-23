@@ -40,41 +40,33 @@ from typing import Tuple
 class Solution:
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
         n, i = len(asteroids), 1
-        if n == 1:
+        if n <= 1:
             return asteroids
-        res = []
-        while i < n - 1:
-            if asteroids[i-1] > 0 and asteroids[i] < 0:
-                outcome_of_collision = self.outcome_of_collision(asteroids, i-1, i)
-                res += outcome_of_collision
-            elif asteroids[i] > 0 and asteroids[i+1] < 0:
-                outcome_of_collision = self.outcome_of_collision(asteroids, i, i+1)
-                res += outcome_of_collision
-            else:
-                res.append(i)
+        res = [asteroids[0]]
+        while i < n :
             print(f'i: {i}')
+            print(f'res[-1]: {res[-1]}')
             print(f'asteroids[i]: {asteroids[i]}')
+            if res[-1] > 0 and asteroids[i] < 0:
+                if abs(res[-1]) < abs(asteroids[i]):
+                    res.pop()
+                    res.append(asteroids[i])
+                elif abs(res[-1]) == abs(asteroids[i]):
+                    res.pop()
+            else:
+                res.append(asteroids[i])
             print(f'res: {res}')
             print()
             i += 1
         return res
 
 
-    def outcome_of_collision(self, asteroids: List[int], i: int, j: int) -> List[int]:
-        if asteroids[i] > asteroids[j]:
-            return [asteroids[i]]
-        elif asteroids[j] > asteroids[i]:
-            return [asteroids[j]]
-        else:
-            return [asteroids[i], asteroids[j]]
-
-
 if __name__ == "__main__":
-    asteroids = [5,10,-5]
+    asteroids = [10,2,-5]
     print(f'asteroids: {asteroids}')
     solution = Solution()
     OUTPUT = solution.asteroidCollision(asteroids)
     print(f'asteroidCollision: {OUTPUT}')
-    EXPECTED_OUTPUT = [5,10]
+    EXPECTED_OUTPUT = [10]
     print(f'Expected Output: {EXPECTED_OUTPUT}')
     print(f'OUTPUT == EXPECTED_OUTPUT: {OUTPUT == EXPECTED_OUTPUT}')
