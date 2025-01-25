@@ -24,7 +24,6 @@ Example 3:
 
 Input: s = "2[abc]3[cd]ef"
 Output: "abcabccdcdcdef"
- 
 
 Constraints:
 
@@ -40,15 +39,20 @@ from typing import Tuple
 
 class Solution:
     def decodeString(self, s: str) -> str:
-        return ''
+        res = ''
+        num_stack, str_stack = [], []
+        current_num, current_str = 0, ''
+        for char in s:
+            print(f'char: {char}')
+        return res
 
 
 if __name__ == "__main__":
-    s = "3[a]2[bc]"
+    s = "3[a2[c]]"
     print(f's: {s}')
     solution = Solution()
     OUTPUT = solution.decodeString(s)
     print(f'decodeString: {OUTPUT}')
-    EXPECTED_OUTPUT = "aaabcbc"
+    EXPECTED_OUTPUT = "accaccacc"
     print(f'Expected Output: {EXPECTED_OUTPUT}')
     print(f'OUTPUT == EXPECTED_OUTPUT: {OUTPUT == EXPECTED_OUTPUT}')
