@@ -10,7 +10,6 @@ The encoding rule is: k[encoded_string], where the encoded_string inside the squ
 You may assume that the input string is always valid; there are no extra white spaces, square brackets are well-formed, etc. Furthermore, you may assume that the original data does not contain any digits and that digits are only for those repeat numbers, k. For example, there will not be input like 3a or 2[4].
 
 The test cases are generated so that the length of the output will never exceed 105.
-
  
 
 Example 1:
@@ -40,27 +39,16 @@ from typing import Tuple
 
 
 class Solution:
-    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
-        stack = []
-        for asteroid in asteroids:
-            while stack and stack[-1] > 0 and asteroid < 0:
-                if abs(stack[-1]) < abs(asteroid):
-                    stack.pop()
-                    continue
-                elif abs(stack[-1]) == abs(asteroid):
-                    stack.pop()
-                break
-            else:
-                stack.append(asteroid)
-        return stack
+    def decodeString(self, s: str) -> str:
+        return ''
 
 
 if __name__ == "__main__":
-    asteroids = [10,2,-5]
-    print(f'asteroids: {asteroids}')
+    s = "3[a]2[bc]"
+    print(f's: {s}')
     solution = Solution()
-    OUTPUT = solution.asteroidCollision(asteroids)
-    print(f'asteroidCollision: {OUTPUT}')
-    EXPECTED_OUTPUT = [10]
+    OUTPUT = solution.decodeString(s)
+    print(f'decodeString: {OUTPUT}')
+    EXPECTED_OUTPUT = "aaabcbc"
     print(f'Expected Output: {EXPECTED_OUTPUT}')
     print(f'OUTPUT == EXPECTED_OUTPUT: {OUTPUT == EXPECTED_OUTPUT}')

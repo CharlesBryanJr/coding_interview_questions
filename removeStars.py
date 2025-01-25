@@ -1,42 +1,36 @@
 # pylint: skip-file
 
 '''
-2390. Removing Stars From a String
+735. Asteroid Collision
 
-You are given a string s, which contains stars *.
+We are given an array asteroids of integers representing asteroids in a row. The indices of the asteriod in the array represent their relative position in space.
 
-In one operation, you can:
+For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
 
-Choose a star in s.
-Remove the closest non-star character to its left, as well as remove the star itself.
-Return the string after all stars have been removed.
-
-Note:
-
-The input will be generated such that the operation is always possible.
-It can be shown that the resulting string will always be unique.
- 
+Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
 
 Example 1:
 
-Input: s = "leet**cod*e"
-Output: "lecoe"
-Explanation: Performing the removals from left to right:
-- The closest character to the 1st star is 't' in "leet**cod*e". s becomes "lee*cod*e".
-- The closest character to the 2nd star is 'e' in "lee*cod*e". s becomes "lecod*e".
-- The closest character to the 3rd star is 'd' in "lecod*e". s becomes "lecoe".
-There are no more stars, so we return "lecoe".
+Input: asteroids = [5,10,-5]
+Output: [5,10]
+Explanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
 Example 2:
 
-Input: s = "erase*****"
-Output: ""
-Explanation: The entire string is removed, so we return an empty string.
+Input: asteroids = [8,-8]
+Output: []
+Explanation: The 8 and -8 collide exploding each other.
+Example 3:
+
+Input: asteroids = [10,2,-5]
+Output: [10]
+Explanation: The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.
  
+
 Constraints:
 
-1 <= s.length <= 105
-s consists of lowercase English letters and stars *.
-The operation above can be performed on s.
+2 <= asteroids.length <= 104
+-1000 <= asteroids[i] <= 1000
+asteroids[i] != 0
 '''
 
 from typing import List
