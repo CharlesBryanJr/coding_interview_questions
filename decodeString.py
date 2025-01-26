@@ -36,23 +36,35 @@ All the integers in s are in the range [1, 300].
 from typing import List
 from typing import Tuple
 
-
+        
 class Solution:
     def decodeString(self, s: str) -> str:
-        res = ''
         num_stack, str_stack = [], []
-        current_num, current_str = 0, ''
+        current_num, current_str = 0, ''        
         for char in s:
-            print(f'char: {char}')
-        return res
+            print(f"Before processing: current_num = {current_num}, current_str = '{current_str}', num_stack = {num_stack}, str_stack = {str_stack}")
+            if char.isdigit():
+                current_num = current_num * 10 + int(char)
+            elif char == '[':
+                num_stack.append(current_num)
+                str_stack.append(current_str)
+                current_num, current_str= 0, ''
+            elif char == ']':
+                num = num_stack.pop()
+                prev_str = str_stack.pop()
+                current_str = prev_str + current_str * num
+            else:
+                current_str += char
+            print(f"After processing: current_num = {current_num}, current_str = '{current_str}', num_stack = {num_stack}, str_stack = {str_stack}\n")
+        return current_str
 
 
 if __name__ == "__main__":
-    s = "3[a2[c]]"
+    s = "2[abc]3[cd]ef"
     print(f's: {s}')
     solution = Solution()
     OUTPUT = solution.decodeString(s)
     print(f'decodeString: {OUTPUT}')
-    EXPECTED_OUTPUT = "accaccacc"
+    EXPECTED_OUTPUT = "abcabccdcdcdef"
     print(f'Expected Output: {EXPECTED_OUTPUT}')
     print(f'OUTPUT == EXPECTED_OUTPUT: {OUTPUT == EXPECTED_OUTPUT}')
