@@ -1,14 +1,15 @@
 import math
 import nltk
-from nltk.corpus import PlaintextCorpusReader
+import PyPDF2
+import os
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from collections import Counter
 
 class CorpusReader_TFIDF:
-    def __init__(self, corpus, tf="raw", idf="base", stopWord="none", toStem=False, stemFirst=False, ignoreCase=True):
-        self.corpus = corpus
+    def __init__(self, corpus_dir, tf="raw", idf="base", stopWord="none", toStem=False, stemFirst=False, ignoreCase=True):
+        self.corpus_dir = corpus_dir
         self.tf_method = tf
         self.idf_method = idf
         self.stopWord = stopWord
@@ -25,8 +26,26 @@ class CorpusReader_TFIDF:
         else:
             self.stop_words = set()
         
-        self.doc_terms = {fileid: self.preprocess(self.corpus.words(fileid)) for fileid in self.corpus.fileids()}
+        self.doc_terms = self.load_documents()
         self.idf_values = self.compute_idf()
+    
+    def load_documents(self):
+        doc_terms = {}
+        for file in os.listdir(self.corpus_dir):
+            if file.endswith(".pdf"):
+                file_path = os.path.join(self.corpus_dir, file)
+                text = self.extract_text_from_pdf(file_path)
+                words = self.preprocess(word_tokenize(text))
+                doc_terms[file] = words
+        return doc_terms
+    
+    def extract_text_from_pdf(self, file_path):
+        text = ""
+        with open(file_path, "rb") as f:
+            reader = PyPDF2.PdfReader(f)
+            for page in reader.pages:
+                text += page.extract_text() + " "
+        return text
     
     def preprocess(self, words):
         if self.ignoreCase:
@@ -51,7 +70,7 @@ class CorpusReader_TFIDF:
         return counts
     
     def compute_idf(self):
-        doc_count = len(self.corpus.fileids())
+        doc_count = len(self.doc_terms)
         term_doc_counts = Counter(term for doc in self.doc_terms.values() for term in set(doc))
         
         if self.idf_method == "base":
@@ -64,22 +83,12 @@ class CorpusReader_TFIDF:
         tf_values = self.compute_tf(words)
         return {term: tf_values[term] * self.idf_values.get(term, 0) for term in tf_values}
     
-    def fileids(self):
-        return self.corpus.fileids()
-    
-    def raw(self, fileids=None):
-        return self.corpus.raw(fileids)
-    
-    def words(self, fileids=None):
-        words = self.corpus.words(fileids) if fileids else self.corpus.words()
-        return self.preprocess(words)
-    
     def tfidf(self, fileid, returnZero=False):
         tfidf_vector = self.compute_tfidf(self.doc_terms[fileid])
         return tfidf_vector if returnZero else {k: v for k, v in tfidf_vector.items() if v > 0}
     
     def tfidfAll(self, returnZero=False):
-        return {fileid: self.tfidf(fileid, returnZero) for fileid in self.corpus.fileids()}
+        return {fileid: self.tfidf(fileid, returnZero) for fileid in self.doc_terms}
     
     def tfidfNew(self, words):
         words = self.preprocess(words)
@@ -102,17 +111,15 @@ class CorpusReader_TFIDF:
     
     def query(self, words):
         query_vector = self.tfidfNew(words)
-        return sorted(((fileid, self.cosine_similarity(query_vector, self.tfidf(fileid))) for fileid in self.corpus.fileids()), key=lambda x: x[1], reverse=True)
+        return sorted(((fileid, self.cosine_similarity(query_vector, self.tfidf(fileid))) for fileid in self.doc_terms), key=lambda x: x[1], reverse=True)
     
 # --------------------------------------------
 # For testing your own corpus
 # --------------------------------------------
 
-rootDir = '/myhomedirectory'  # Change this to the actual directory where text files are stored
+rootDir = '/Users/charlesbryan/Desktop/research_papers'  # Set to actual directory
 
-newCorpus = PlaintextCorpusReader(rootDir, '*')
-
-tfidfCorpus = CorpusReader_TFIDF(newCorpus)
+tfidfCorpus = CorpusReader_TFIDF(rootDir)
 
 q = tfidfCorpus.tfidfAll()
 for x in q:
