@@ -117,7 +117,7 @@ class CorpusReader_TFIDF:
 # For testing your own corpus
 # --------------------------------------------
 
-rootDir = '/Users/charlesbryan/Desktop/research_papers'  # Set to actual directory
+rootDir = '/Users/charlesbryan/Desktop/research_papers'
 
 tfidfCorpus = CorpusReader_TFIDF(rootDir)
 
